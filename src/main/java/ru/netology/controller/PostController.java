@@ -1,7 +1,8 @@
 package ru.netology.controller;
 
-import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
 
@@ -34,5 +35,11 @@ public class PostController {
   @DeleteMapping("/{id}")
   public void removeById(@PathVariable long id) {
     service.removeById(id);
+  }
+
+  @ExceptionHandler({NotFoundException.class})
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public String handleException(NotFoundException e) {
+    return e.getMessage();
   }
 }
